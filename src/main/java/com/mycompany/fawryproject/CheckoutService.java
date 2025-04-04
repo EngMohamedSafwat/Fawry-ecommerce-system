@@ -28,11 +28,11 @@ public class CheckoutService {
             
             if(product.isExpired())
             {
-                throw new IllegalStateException("The Product " + product.getName() + "is expired!!!");
+                throw new IllegalStateException(product.getName());
             }
             if(item.getQuantity() > product.getAvaliableQuantity())
             {
-                throw new IllegalStateException("The Product " + product.getName() + "is out of stock!!");
+                throw new IllegalStateException("The Product " + product.getName() + " is out of stock!!");
             }
         }
         
@@ -42,7 +42,7 @@ public class CheckoutService {
         
         if(customer.getBalance() < TotalAmount)
         {
-            throw new IllegalStateException("Insufficient balance! Required balance is: "+ TotalAmount + ", Avalibale balance is: "+ customer.getBalance());
+            throw new IllegalStateException("Insufficient balance! Required balance is: "+ TotalAmount + " LE, Avalibale balance is: "+ customer.getBalance()+ " LE");
         }
         
         customer.deductBalance(TotalAmount);
@@ -53,7 +53,6 @@ public class CheckoutService {
         }
         
         sendShippableItems(shippingcart);
-        
         PrintCheckOutDetails(customer, subtotal, ShippingFees, TotalAmount);
         
         shippingcart.clear();
@@ -79,13 +78,13 @@ public class CheckoutService {
         
         for (CartItems item : customer.getShippingCart().getItems()) {
             Product product = item.getProduct();
-            System.out.println(item.getQuantity() + "x " + product.getName() + " " + String.format("%.0f", item.getTotalPrice()));
+            System.out.println(item.getQuantity() + "x " + product.getName() + " " + String.format("%.0f", item.getTotalPrice())+ " LE");
         }
         
         System.out.println("----------------------");
-        System.out.println("Subtotal " + String.format("%.0f", subtotal));
-        System.out.println("Shipping " + String.format("%.0f", ShippingFees));
-        System.out.println("Amount " + String.format("%.0f", TotalAmount));
+        System.out.println("Subtotal " + String.format("%.0f", subtotal) + " LE");
+        System.out.println("Shipping " + String.format("%.0f", ShippingFees) + " LE");
+        System.out.println("Amount " + String.format("%.0f", TotalAmount) + " LE");
     }
     
      private void sendShippableItems(ShippingCart cart) {
